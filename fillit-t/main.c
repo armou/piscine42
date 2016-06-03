@@ -6,45 +6,91 @@
 /*   By: aoudin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/26 12:28:22 by aoudin            #+#    #+#             */
-/*   Updated: 2016/05/26 17:08:44 by aoudin           ###   ########.fr       */
+/*   Updated: 2016/06/03 19:54:47 by aoudin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib.h"
 
-static void		ft_error(int a)
+void		ft_error(int a)
 {
 	if (a == 1)
 		ft_putstr("error\n");
 	exit(0);
 }
 
-static int		ft_count_tminos(char *buf, int len)
+int		ft_init(char *buf, int len)
+{
+	//	int			i;
+	int			map[MAP_SIZE - 1];
+	int			j;
+	t_datastore	*vault;
+	t_lista		*lst;
+
+	lst = NULL;
+	if (!(vault = (t_datastore*)malloc(sizeof(*vault))))
+		return (0);
+	vault->count = ft_count_tminos(buf, len, &lst);
+	vault->sq_size = 0;
+	vault->bin_value = 0;
+	printf("vault->count == %d\n", vault->count);
+	j = 0;
+	ft_mapsize(map, lst, vault);
+	while (lst)
+	{
+		j = 0;
+		while (j < 4)
+		{
+			ft_move_top(lst);
+			ft_move_right(lst);
+			ft_putstr(strbin(lst->tetri[j], 4));
+			ft_putchar('\n');
+		//	printf("lst->tetri[%d] == %d\n", j, lst->tetri[j]);
+			j++;
+		}
+		ft_putchar('\n');
+		lst = lst->next;
+	}
+	j = 0;
+	while (map[j])
+	{
+		ft_putstr(strbin(map[j], MAP_SIZE - 1));
+		ft_putchar('\n');
+		j++;
+	}
+	return (0);
+}
+
+int		ft_count_tminos(char *buf, int len, t_lista **lst)
 {
 	int		i;
-	int		nb;
 	int		count;
+//	int		map[MAP_SIZE - 1];
+//	static int		sq_size = 0;
 
 	i = 0;
-	nb = len + 1;
-	if (nb % 21 == 0)
+	count = len + 1;
+	if (count % 21 == 0)
 	{
-		nb = nb / 21;
-		printf("nb == %d\n", nb);
+		count = count / 21;
+		printf("count == %d\n", count);
 	}
-	count = nb;
 	while (i < count)
 	{
-		if (ft_checkerror((buf + (21 * i)), len))
+		if (ft_checkerror((buf + (21 * i)), len) && ft_valid_tminos(buf + (21 * i)))
+		{
+			ft_store((buf + (21 * i)), lst, count);
 			i++;
+		}
 		else
 			ft_error(1);
 		printf("i == %d\n", i);
 	}
+	//ft_setmap(map, &sq_size, count);
 	return (count);
 }
 
-static int		ft_checkerror(char *buf, int ret)
+int		ft_checkerror(char *buf, int ret)
 {
 	int		i;
 	int		n;
@@ -58,7 +104,7 @@ static int		ft_checkerror(char *buf, int ret)
 	printf("n == %d\n", n);
 	while ((!(buf[i] == '\n' && buf[i + 1] == '\n')) && buf[i])
 	{
-//		printf("test1");
+		//		printf("test1");
 		if (buf[i] == '.' && buf[i])
 			tab[0]++;
 		if (buf[i] == '#' && buf[i])
@@ -76,9 +122,9 @@ static int		ft_checkerror(char *buf, int ret)
 		return (1);
 }
 
-static void		ft_read(int fd, char *file)
+void		ft_read(int fd, char *file)
 {
-//	int		ret;
+	//	int		ret;
 	char	buf[BUF];
 	char	*str;
 	int		len;
@@ -92,19 +138,22 @@ static void		ft_read(int fd, char *file)
 		ft_error(1);
 	read(fd, str, len);
 	str[len] = '\0';
-	ft_count_tminos(str, len);
-/*	if ((ret = read(fd, buf, BUF)))
-	{
+	ft_init(str, len);
+	//	ft_count_tminos(str, len);
+
+
+	/*	if ((ret = read(fd, buf, BUF)))
+		{
 		printf("ret == %d\n", ret);
 		if ((ret + 1) % 21 == 0)
 		{
-			buf[ret] = '\0';
-			close(fd);
-			ft_count_tminos(buf, ret);
-			ft_checkerror(buf, ret);
+		buf[ret] = '\0';
+		close(fd);
+		ft_count_tminos(buf, ret);
+		ft_checkerror(buf, ret);
 		}
-	}
-*/
+		}
+		*/
 	close(fd);
 }
 

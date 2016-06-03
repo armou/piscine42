@@ -6,7 +6,7 @@
 /*   By: aoudin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/26 12:51:27 by aoudin            #+#    #+#             */
-/*   Updated: 2016/05/26 16:39:06 by aoudin           ###   ########.fr       */
+/*   Updated: 2016/06/03 19:53:18 by aoudin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,41 @@
 # include "libft/libft.h"
 
 # define BUF 1
+# define MAX_INT 2147483647
+# define MAP_SIZE 20
 
 typedef struct		s_lista
 {
 	struct s_lista	*next;
-	char			**data;
+	int				rank;
+	int				tetri[4];
+	int				spot;
+	int				height;
 }					t_lista;
 
-static void			ft_read(int fd, char *file);
-static int			ft_checkerror(char *buf, int ret);
+typedef struct		s_datastore
+{
+	int				count;
+	int				sq_size;
+	int				bin_value;
+}					t_datastore;
+
+void				ft_read(int fd, char *file);
+int					ft_checkerror(char *buf, int ret);
+int					ft_valid_tminos(char *str);
+void				ft_error(int a);
+int					ft_count_tminos(char *buf, int len, t_lista **lst);
+void				ft_list(int *nb, t_lista **lst, int count);
+void				ft_store(char *buf, t_lista **lst, int count);
+int					*ft_map(int *map);
+void				ft_move_top(t_lista *list);
+void				ft_move_right(t_lista *list);
+int					ft_sqroot(int nb);
+int					ft_power(int nb, int power);
+void				ft_setmap(int *map, t_datastore *vault);
+int					ft_init(char *buf, int len);
+int					ft_mapsize(int *map, t_lista *lst, t_datastore *vault);
+int					ft_fillmap(int *map, t_lista *lst, t_datastore *vault);
+char				*strbin(const unsigned int n, const short nb_bits);
 
 #endif
