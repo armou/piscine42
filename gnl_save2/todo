@@ -1,0 +1,10 @@
+mettre tout jusquau \n dans une string, et stocker le reste dans une autre string
+faire un strjoin du read suivant dans la string n2 jusquau \n
+free la string utilise dans le strjoin
+faire en sorte que le 2eme passage sur gnl ne read que si il y a pas de \n sur le reste du BUF
+du coup -> faire une fonction speciale pour read
+
+read quoi quil arrive,
+stocker le buffer dans une store_buf
+stocker a la suite de store_buf pour tout les read suivant
+lire dans store_buf jusquau \n pour remplir **line
