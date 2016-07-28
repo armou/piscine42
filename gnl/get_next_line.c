@@ -6,85 +6,110 @@
 /*   By: aoudin <aoudin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/19 19:07:44 by aoudin            #+#    #+#             */
-/*   Updated: 2016/06/21 14:18:22 by aoudin           ###   ########.fr       */
+/*   Updated: 2016/07/27 18:02:35 by aoudin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int		get_next_line(const int fd, char **line)
+static int			test_read_next(char *str, int counter)
 {
-//	char	*str;
-	char			*buf;
 	int				i;
-	int				ret;
-	int				line_read;
-	static t_data	*gnl = NULL;
 
 	i = 0;
-	if (!gnl)
+	if (!str)
+		return (0);
+	while (str[counter] && str[counter] != '\n')
 	{
-		if (!(gnl = (t_data*)malloc(sizeof(t_data))))
-			return (-1);
+		i++;
+		counter++;
 	}
-	if (fd < 0 || !line)
-		return (-1);
-	if (!(buf = (char*)malloc(sizeof(char) * (BUFF_SIZE + 1))))
-		return (-1);
-	read(fd, buf, BUFF_SIZE);
-	printf("fd == %d\n", fd);
-	line_read = 0;
-//	printf("buf = %s\n", buf);
+	return (i);
+}
+
+static void			ft_storeline(t_data *gnl, char **line)
+{
+	char			*str;
+	int				len;
+
+	len = test_read_next(gnl->store_buf, 0);
+	*line = ft_strndup(gnl->store_buf, len - 1);
+	str = gnl->store_buf;
+	gnl->store_buf = ft_strsub(str, len + 1, ft_strlen(str) - len);
+	gnl->l_read = 1;
+	if (str[0] == '\0')
+		gnl->l_read = 0;
+	free(str);
+}
+
+static int			test_read(t_data *gnl, char *buf, int fd, char **line)
+{
+	int				ret;
+	char			*tmp;
+
+	ret = 0;
 	while ((ret = read(fd, buf, BUFF_SIZE)))
 	{
-		buf[ret] = 0;
-		line_read = 1;
+		if (!(gnl->store_buf))
+			gnl->store_buf = ft_strnew(BUFF_SIZE);
+		buf[ret] = '\0';
+		tmp = gnl->store_buf;
+		gnl->store_buf = ft_strjoin(tmp, buf);
+		free(tmp);
 	}
 	if (ret == -1)
 		return (-1);
-	if (line_read == 1)
+	if (ret == 0)
 	{
-		line_read = 0;
-//		if (strcmp("", *line) != 0)
-//			return (1);
+		ft_storeline(gnl, line);
+		if (gnl->l_read == 1)
+		{
+			gnl->l_read = 0;
+			return (1);
+		}
 	}
-	return (1);
+	return (0);
 }
 
-int		main(int ac, char **av)
+/*static t_data		*ft_find_fd(t_data **begin_list, int fd)
 {
-	int		fd;
-	int		ret;
-	char	*line;
+	t_data			*tmp_list;
 
-	line = NULL;
-	fd = 0;
-	ret = 0;
-	if (ac > 1)
+	tmp_list = *begin_list;
+	if (tmp)
 	{
-		if ((fd = open(av[1], O_RDONLY)) > 0)
+		while (tmp)
 		{
-			while ((ret = get_next_line(fd, &line)) > 0)
-			{
-				printf("ret = %d\n", ret);
-				printf("line = %s\n", line);
-			}
-			if (ret < 0)
-			{
-				printf("error reading\n");
-			}
-			close(fd);
-		}
-		else
-		{
-			printf("fd = %d\n", fd);
-			printf("error opening\n");
+			if (fd == tmp->i_fd)
+				return (tmp);
+			tmp = tmp->next;
 		}
 	}
-	else
-		while ((ret = get_next_line(0, &line)) > 0)
-		{
-			printf("toto\n");
-		}
-	return (0);
+	tmp = ft_lstnew("\0", 1);
+	tmp->content_size = fd;
+	ft_lstadd(gnl, tmp);
+	return (tmp);
+}
+*/
+int					get_next_line(const int fd, char **line)
+{
+	char			buf[BUFF_SIZE + 1];
+	int				ret;
+	static t_data	*gnl = NULL;
+	t_data			*begin_list;
+
+	if (fd < 0 || line == NULL || read(fd, buf, 0))	
+		return (-1);
+	if (!gnl)
+	{
+		if (!(gnl = (t_data*)ft_memalloc(sizeof(t_data))))
+			return (-1);
+	}
+//	gnl.i_fd = fd;
+//	begin_list = gnl;
+//	gnl = ft_find_fd(begin_list, fd);
+	ret = test_read(gnl, buf, fd, line);
+	if (ret == -1)
+		return (-1);
+	return (ret);
 }

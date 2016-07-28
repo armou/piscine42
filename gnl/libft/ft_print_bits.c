@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_print_bits.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aoudin <aoudin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/06/19 19:15:52 by aoudin            #+#    #+#             */
-/*   Updated: 2016/07/27 15:06:19 by aoudin           ###   ########.fr       */
+/*   Created: 2016/07/06 15:31:09 by aoudin            #+#    #+#             */
+/*   Updated: 2016/07/06 15:38:34 by aoudin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# include <stdlib.h>
-# include <stdio.h>
-# include <unistd.h>
-# include <fcntl.h>
-# define BUFF_SIZE 10
-# include <string.h>
-# include "./libft/libft.h"
+#include "libft.h"
 
-int					get_next_line(const int fd, char **line);
-
-typedef struct		s_data
+void	ft_print_bits(unsigned char octet)
 {
-	int				i_fd;
-	int				l_read;
-	char			*one_l;
-	char			*store_buf;
-	t_list			*next;
-}					t_data;
+	int				i;
+	unsigned char	mask;
+	unsigned char	masked_octet;
+	unsigned char	bit;
 
-#endif
+	i = 7;
+	while (i >= 0)
+	{
+		mask = 1 << i;
+		masked_octet = octet & mask;
+		bit = masked_octet >> i;
+		ft_putchar('0' + bit);
+		i--;
+	}
+}
