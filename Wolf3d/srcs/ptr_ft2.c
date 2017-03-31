@@ -6,12 +6,14 @@
 /*   By: aoudin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 18:58:54 by aoudin            #+#    #+#             */
-/*   Updated: 2017/03/09 17:52:21 by aoudin           ###   ########.fr       */
+/*   Updated: 2017/03/31 19:43:46 by aoudin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 #include <stdio.h>
+
+void			ft_check_offset // FINIR CETTE FONCTION
 
 void			ft_movfb(void *arg, int keycode)
 {
@@ -20,24 +22,24 @@ void			ft_movfb(void *arg, int keycode)
 	v = arg;
 	if (keycode == 126)
 	{
-		if ((TAB[(int)(POSX + DIRX * MS)][(int)POSY] >= '0') &&
-			(TAB[(int)(POSX + DIRX * MS + OFFSET)][(int)POSY] >= '0') &&
-			(TAB[(int)(POSX + DIRX * MS - OFFSET)][(int)POSY] >= '0'))
+		if ((TAB[(int)(POSX + DIRX * MS)][(int)POSY] <= '9') &&
+			(TAB[(int)((POSX + DIRX * MS) + OFFSET)][(int)POSY] <= '9') &&
+			(TAB[(int)((POSX + DIRX * MS) - OFFSET)][(int)POSY] <= '9'))
 			POSX = POSX + DIRX * MS;
-		if ((TAB[(int)POSX][(int)(POSY + DIRY * MS)] >= '0') &&
-			(TAB[(int)(POSX + DIRX * MS)][(int)(POSY + OFFSET)] >= '0') &&
-			(TAB[(int)(POSX + DIRX * MS)][(int)(POSY - OFFSET)] >= '0'))
+		if ((TAB[(int)POSX][(int)(POSY + DIRY * MS)] <= '9') &&
+			(TAB[(int)POSX][(int)((POSY + DIRY * MS) + OFFSET)] <= '9') &&
+			(TAB[(int)POSX][(int)((POSY + DIRY * MS) - OFFSET)] <= '9'))
 			POSY = POSY + DIRY * MS;
 	}
 	else if (keycode == 125)
 	{
-		if ((TAB[(int)(POSX - DIRX * MS)][(int)POSY] >= '0') &&
-			(TAB[(int)(POSX - DIRX * MS + OFFSET)][(int)POSY] >= '0') &&
-			(TAB[(int)(POSX - DIRX * MS - OFFSET)][(int)POSY] >= '0'))
+		if ((TAB[(int)(POSX - DIRX * MS)][(int)POSY] <= '9') &&
+			(TAB[(int)((POSX - DIRX * MS) + OFFSET)][(int)POSY] <= '9') &&
+			(TAB[(int)((POSX - DIRX * MS) - OFFSET)][(int)POSY] <= '9'))
 			POSX = POSX - DIRX * MS;
-		if ((TAB[(int)POSX][(int)(POSY - DIRY * MS)] >= '0') &&
-			(TAB[(int)(POSX + DIRX * MS)][(int)(POSY + OFFSET)] >= '0') &&
-			(TAB[(int)(POSX + DIRX * MS)][(int)(POSY - OFFSET)] >= '0'))
+		if ((TAB[(int)POSX][(int)(POSY - DIRY * MS)] <= '9') &&
+			(TAB[(int)POSX][(int)((POSY - DIRY * MS) + OFFSET)] <= '9') &&
+			(TAB[(int)POSX][(int)((POSY - DIRY * MS) - OFFSET)] <= '9'))
 			POSY = POSY - DIRY * MS;
 	}
 }
@@ -49,24 +51,24 @@ void			ft_movlr(void *arg, int keycode)
 	v = arg;
 	if (keycode == 124)
 	{
-		if ((TAB[(int)(POSX + PLANEX * MS)][(int)POSY] >= '0') &&
-			 (TAB[(int)(POSX + PLANEX * MS + OFFSET)][(int)POSY] >= '0') &&
-			 (TAB[(int)(POSX + PLANEX * MS + OFFSET)][(int)POSY] >= '0'))
+		if ((TAB[(int)(POSX + PLANEX * MS)][(int)POSY] <= '9') &&
+			 (TAB[(int)((POSX + PLANEX * MS) + OFFSET)][(int)POSY] <= '9') &&
+			 (TAB[(int)((POSX + PLANEX * MS) - OFFSET)][(int)POSY] <= '9'))
 			POSX = POSX + PLANEX * MS;
-		if ((TAB[(int)POSX][(int)(POSY + PLANEY * MS)] >= '0') &&
-			(TAB[(int)POSX][(int)(POSY + PLANEY * MS + OFFSET)] >= '0') &&
-			(TAB[(int)POSX][(int)(POSY + PLANEY * MS - OFFSET)] >= '0'))
+		if ((TAB[(int)POSX][(int)(POSY + PLANEY * MS)] <= '9') &&
+			(TAB[(int)POSX][(int)((POSY + PLANEY * MS) + OFFSET)] <= '9') &&
+			(TAB[(int)POSX][(int)((POSY + PLANEY * MS) - OFFSET)] <= '9'))
 			POSY = POSY + PLANEY * MS;
 	}
 	else if (keycode == 123)
 	{
-		if ((TAB[(int)(POSX - PLANEX * MS)][(int)POSY] >= '0') &&
-			 (TAB[(int)(POSX - PLANEX * MS + OFFSET)][(int)POSY] >= '0') &&
-			 (TAB[(int)(POSX - PLANEX * MS - OFFSET)][(int)POSY] >= '0'))
+		if ((TAB[(int)(POSX - PLANEX * MS)][(int)POSY] <= '9') &&
+			 (TAB[(int)((POSX - PLANEX * MS) + OFFSET)][(int)POSY] <= '9') &&
+			 (TAB[(int)((POSX - PLANEX * MS) - OFFSET)][(int)POSY] <= '9'))
 			POSX = POSX - PLANEX * MS;
-		if ((TAB[(int)POSX][(int)(POSY - PLANEY * MS)] >= '0') &&
-			(TAB[(int)POSX][(int)(POSY + PLANEY * MS + OFFSET)] >= '0') &&
-			(TAB[(int)POSX][(int)(POSY + PLANEY * MS + OFFSET)] >= '0'))
+		if ((TAB[(int)POSX][(int)(POSY - PLANEY * MS)] <= '9') &&
+			(TAB[(int)POSX][(int)((POSY + PLANEY * MS) + OFFSET)] <= '9') &&
+			(TAB[(int)POSX][(int)((POSY + PLANEY * MS) - OFFSET)] <= '9'))
 			POSY = POSY - PLANEY * MS;
 	}
 }
@@ -112,7 +114,7 @@ void			ft_activate(void *arg, int keycode)
 	v = arg;
 	(void)keycode;
 	if (TAB[(int)(POSX + DIRX)][(int)(POSY + DIRY)] == 'D')
-		TAB[(int)(POSX + DIRX)][(int)(POSY + DIRY)] = '1';
-//	else if (TAB[(int)POSX][(int)POSY + 1] >= '0')
-//		TAB[(int)POSX][(int)POSY] = 'D';
+		TAB[(int)(POSX + DIRX)][(int)(POSY + DIRY)] = '8';
+	else if (TAB[(int)(POSX + DIRX)][(int)(POSY + DIRY)] == '8')
+		TAB[(int)(POSX + DIRX)][(int)(POSY + DIRY)] = 'D';
 }

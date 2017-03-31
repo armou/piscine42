@@ -6,7 +6,7 @@
 /*   By: aoudin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/07 16:07:51 by aoudin            #+#    #+#             */
-/*   Updated: 2017/03/10 17:11:30 by aoudin           ###   ########.fr       */
+/*   Updated: 2017/03/31 19:23:50 by aoudin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <math.h>
 # include "../libs/minilibx_macos/mlx.h"
 # include "../libs/libft/libft.h"
-# include </System/Library/Frameworks/Tk.framework/Versions/8.5/Headers/X11/X.h>
+//# include </System/Library/Frameworks/Tk.framework/Versions/8.5/Headers/X11/X.h>
 # include <pthread.h>
 
 # define WIDTH 1000

@@ -6,7 +6,7 @@
 /*   By: aoudin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/07 16:11:48 by aoudin            #+#    #+#             */
-/*   Updated: 2017/03/10 13:41:48 by aoudin           ###   ########.fr       */
+/*   Updated: 2017/03/31 19:26:03 by aoudin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,11 @@ int				main(int ac, char **av)
 		if (!(v = ft_create_struct(fd)))
 			exit(0);
 	mlx_loop_hook(MLX, ft_wolf, v);
-	mlx_hook(WIN, KeyPress, KeyPressMask, ft_keypress, v);
+	mlx_hook(WIN, 2, 0, ft_keypress, v);
+//	mlx_hook(WIN, KeyPress, KeyPressMask, ft_keypress, v);
 	//		mlx_hook(WIN, MotionNotify, ButtonMotionMask, wolf);
 	//		mlx_hook(WIN, ButtonPress, ButtonPressMask, ft_button, wolf);
-	mlx_hook(WIN, DestroyNotify, Button1MotionMask, ft_exitprog, v);
+//	mlx_hook(WIN, DestroyNotify, Button1MotionMask, ft_exitprog, v);
 	mlx_loop(MLX);
 	}
 	return (0);
